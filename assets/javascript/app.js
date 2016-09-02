@@ -1,10 +1,9 @@
 //variable object with questions, answers, and the index of correct answer
 
-var triviaQuestion = [{
-	question: "How many US state capitals are named after US presidents?",
-	answers: ["five", "four", "two", "seven"],
+var triviaQuestions = [{
+	question: "In which country is the bay of pigs?",
+	answers: ["Greece", "Cuba", "Vietnam", "United States of America"],
 	correct: 2
-	//Lincoln Nebraska, Jackson Mississippi, Madison Wisconsin and Jefferson City Missouri
 }, {
 	question: "Of the ten largest islands in the world, three are in which country?",
 	answers: ["Canada", "Brazil", "Phillipines", "Indonesia"],
@@ -40,9 +39,48 @@ var triviaQuestion = [{
 }];
 
 //variables for recording values during game, timer, and game ending 
-var currentQuestion = 0,
+var questionIndex = 0,
     correctAns = 0,
 	incorrectAns = 0,
-    timer = 15,
-    gameOver = false;
+    timeLeft = 15,
+    gameOver = false,
+    intervalID = null;
+
+
+var timer = {
+//functions for timer and condition if timer runs out
+	startTimer: function(start) {
+		timeLeft = start;
+		$('#timer').html('<h2>' + timeLeft + '</h2>');
+		intervalID = setInterval(timerCount, 1000);
+	};	
+
+	timerCount: function() {
+		if(timeLeft == 0) {
+			timerReset();
+		} else {
+			timeLeft--
+			$('#timer').html('<h2>' + timeLeft + '</h2>');
+		}
+	};
+	//stop timer
+	timerReset: function() {
+		clearInterval(intervalID);
+	};
+};
+
+var question = {
+	displayQuestion: function() {
+		q = triviaQuestions[c]
+	};
+}
+
+//function to display current question
+	$('#start').on('click',function() {
+		nextQuestion();
+	});
+
+
+
+
 
