@@ -42,7 +42,6 @@ var triviaQuestions = [{
 var questionIndex = 0,
     correctAns = 0,
 	incorrectAns = 0,
-    timeLeft = 15,
     gameOver = false,
     intervalID = null;
 
@@ -53,7 +52,7 @@ var timer = {
 		timeLeft = start;
 		$('#timer').html('<h2>' + timeLeft + '</h2>');
 		intervalID = setInterval(timerCount, 1000);
-	};	
+	},	
 
 	timerCount: function() {
 		if(timeLeft == 0) {
@@ -62,23 +61,27 @@ var timer = {
 			timeLeft--
 			$('#timer').html('<h2>' + timeLeft + '</h2>');
 		}
-	};
+	},
 	//stop timer
 	timerReset: function() {
 		clearInterval(intervalID);
-	};
+	},
 };
 
 var question = {
 	displayQuestion: function() {
-		q = triviaQuestions[c]
-	};
-}
+		q = triviaQuestions[questionIndex]
+		$('#question').html(q.question);
+		for (var i = 0; i < q.answers.length; i++) {
+				$('.buttonValue' + i).html(q.answers[i]); 
+				console.log(q.answers[i])
+			};
+	},
+};
 
-//function to display current question
-	$('#start').on('click',function() {
-		nextQuestion();
-	});
+
+question.displayQuestion();
+
 
 
 
