@@ -3,7 +3,7 @@ $(function() {
 
 var triviaQuestions = [{
 	question: "In which country is the bay of pigs?",
-	answers: ["Greece", "Cuba", "Vietnam", "United States of America"],
+	answers: ["Greece", "Cuba", "Vietnam", "USA"],
 	correct: 1
 }, {
 	question: "Of the ten largest islands in the world, three are in which country?",
@@ -23,14 +23,14 @@ var triviaQuestions = [{
 	correct: 2
 }, {
 	question: "What is the official nickname of the state of Texas?",
-	answers: ["The Friendship State", "The Chili State", "The Home of Tex-Mex State", "The Lone Star State"],
+	answers: ["The Friendship State", "The Chili State", "The Tex-Mex State", "The Lone Star State"],
 	correct: 3
 }, {
 	question: "What is the highest mountain in the world?",
 	answers: ["Mt Everest", "K2", "Cho Oyu", "Broad Peak"],
 	correct: 0
 }, {
-	question: "Which is the longest river in the world?,",
+	question: "Which is the longest river in the world?",
 	answers: ["Mississippi River", "Nile River", "Amazon River", "Yangtze River"],
 	correct: 1
 }, {
@@ -44,6 +44,7 @@ var triviaQuestions = [{
 var questionIndex = 0,
     correctAns = 0,
 	incorrectAns = 0,
+	outOfTime = 0,
     gameOver = false,
     intervalID = null;
 
@@ -52,7 +53,8 @@ var timer = {
 //functions for timer and condition if timer runs out
 	startTimer: function(start) {
 		timeLeft = start;
-		$('#timer').html('<h2>' + timeLeft + '</h2>');
+		console.log(this);
+		$('#timer').html('<h2>Time Left: ' + start + '</h2>');
 		intervalID = setInterval(this.timerCount, 1000);
 	},	
 
@@ -63,15 +65,17 @@ var timer = {
 	timerCount: function() {
 		if(timeLeft == 0) {
 			timer.timerReset();
+			outOfTime++;
+			$('#messages').html('Too slow. I suppose you can try waiting for me to find you.');
+			question.nextQuestion();
 		} else {
 			timeLeft--
-			$('#timer').html('<h2>' + timeLeft + '</h2>');
+			$('#timer').html('<h2>Time Left: '+ timeLeft + '</h2>');
 		}
 	},
 };
 
 var question = {
-
 	//display question and answers
 	displayQuestion: function() {
 		 q = triviaQuestions[questionIndex];
@@ -80,7 +84,7 @@ var question = {
 				$('.btnVal' + i).html(q.answers[i]); 
 				console.log(q.answers[i])
 			}
-			timer.startTimer(2);
+			timer.startTimer(4);
 	},
 	//check answers for right or wrong
 	checkAnswers: function(answer) {
@@ -89,31 +93,55 @@ var question = {
 		if (q.correct == answer) {
 			$('#messages').html('You are CORRECT!!!!');
 				correctAns++;
+				this.nextQuestion();
 		} else {
-			$('#messages').html('You will never catch me. The right answer is ' + q.answers[rightAnswer]);
+			$('#messages').html('You will never catch me. <p> The right answer is ' + q.answers[rightAnswer] + '</p>');
 				incorrectAns++;
+				this.nextQuestion();
 		  }
-	}
+	},
 	//goes to next question after times runs out or if right or wrong asnwer picked
+	nextQuestion: function() {
+		questionIndex++;
+		if (questionIndex == triviaQuestions.length) {
+			$('#messages').html('Lets see how you did. <p> You got ' + correctAns + ' answers right and ' + incorrectAns + ' wrong </p>');
+			if (outOfTime > 0) {
+				$('#messages').html('<p> You were sleeping for ' + outOfTime + ' of the questions. </p>')
+			}
+		} else {
+			this.displayQuestion();
+		}
 
+	},
 };
 
+
+function resetDiv() {
+	$('#questionHolder').empty();
+	$('#timer').empty();
+}
+
 //click action for answers
-	$('.btnVal0').click(function() {
+	$('.btnVal0').on('click', function() {
 		question.checkAnswers(0);
 	}); 
-	$('.btnVal1').click(function() {
+	$('.btnVal1').on('click', function() {
 		question.checkAnswers(1);
 	}); 
-	$('.btnVal2').click(function() {
+	$('.btnVal2').on('click', function() {
 		question.checkAnswers(2);
 	});
-	$('.btnVal2').click(function() {
+	$('.btnVal3').on('click', function() {
 		question.checkAnswers(3);
 	});
 
+	$('.startGame').click(function() {
+		$('.button').css('visibility', 'visible');
+		$(this).css('visibility', 'hidden');
+		question.displayQuestion();
 
-question.displayQuestion();
+	});
+
 });
 
 
