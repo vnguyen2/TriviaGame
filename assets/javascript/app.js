@@ -1,6 +1,5 @@
 $(function() {
 //variable object with questions, answers, and the correct answer reflects index position on answer array
-
 	var triviaQuestions = [{
 		question: "In which country is the bay of pigs?",
 		answers: ["Greece", "Cuba", "Vietnam", "USA"],
@@ -38,8 +37,6 @@ $(function() {
 		answers: ["Cape Verde", "Rwanda", "Burundi", "The Gambia"],
 		correct: 3
 	}];
-
-
 	//variables for recording values during game, timer, and game ending 
 	var questionIndex = 0,
 	    correctAns = 0,
@@ -48,7 +45,7 @@ $(function() {
 	    gameOver = false,
 	    intervalID = null;
 
-
+	// timer object
 	var timer = {
 	//functions for timer and condition if timer runs out
 		startTimer: function(start) {
@@ -74,12 +71,13 @@ $(function() {
 			}
 		},
 	};
-
+	//question object
 	var question = {
 		//display question and answers
 		displayQuestion: function() {
 			 q = triviaQuestions[questionIndex];
-			 $('#messages').empty();
+			 	$('#messages').empty();
+			 	$('#answer, #question').show(500, 'swing');
 				$('#question').html(q.question);
 			for (var i = 0; i < q.answers.length; i++) {
 					$('.btnVal' + i).html(q.answers[i]); 
@@ -92,60 +90,62 @@ $(function() {
 			timer.timerReset();
 			var rightAnswer = q.correct;
 			if (q.correct == answer) {
-				$('#messages').html('You are CORRECT!!!!');
+				$('#messages').html('You are CORRECT!!! I love Geography!');
 					correctAns++;
 					this.nextQuestion();
 			} else {
-				$('#messages').html('You will never catch me. <p> The right answer is ' + q.answers[rightAnswer] + '</p>');
+				$('#messages').html('I am disappointed in your knowledge. <p> The right answer is ' + q.answers[rightAnswer] + '</p>');
 					incorrectAns++;
 					this.nextQuestion();
 			  }
 		},
-		//goes to next question after times runs out or if right or wrong asnwer picked
+	//goes to next question after times runs out or if right or wrong answer picked
+	//next question delayed for 3.5seconds
 		nextQuestion: function() {
 			questionIndex++;
 			if (questionIndex === triviaQuestions.length) {
-				$('#question, #answer, #timer').empty();
-				$('#messages').html('Lets see how you did. <p> You got ' + correctAns + ' answers right and ' + incorrectAns + ' wrong </p>');
+				$('#question, #answer, #timer').hide();
+				$('#messages').html('Lets see how you did. <br> You got ' + correctAns + ' right and ' + incorrectAns + ' wrong');
 				if (outOfTime > 0) {
-					$('#messages').append('You were sleeping for ' + outOfTime + ' of the questions.')
+					$('#messages').append('<br>You were sleeping for ' + outOfTime + ' of the questions.')
 				}
 				$('.resetGame').css('visibility', 'visible');
 			} else {
-				this.nextQuestion();
+				setTimeout(this.displayQuestion, 3500);
 			}
-		return
-
 		},
 	};
 
+	//click action for answer buttons
+	$('.btnVal0').bind('click', function() {
+		question.checkAnswers(0);
+		$('#answer, #question').hide();
+	}); 
+	$('.btnVal1').bind('click', function() {
+		question.checkAnswers(1);
+		$('#answer, #question').hide();
+	}); 
+	$('.btnVal2').bind('click', function() {
+		question.checkAnswers(2);
+		$('#answer, #question').hide();
+	});
+	$('.btnVal3').bind('click', function() {
+		question.checkAnswers(3);
+		$('#answer, #question').hide();
+	});
+	//start game button
+	$('.startGame').bind('click', function() {
+		$('#start').hide();
+		$('.button').css('visibility', 'visible');
+		$(this).css('visibility', 'hidden');
+		question.displayQuestion();
+	});
+	//reset game button
+	$('.resetGame').bind('click', function() {
+		gameReset();
+	});
 
-	//click action for answers
-		$('.btnVal0').bind('click', function() {
-			question.checkAnswers(0);
-		}); 
-		$('.btnVal1').bind('click', function() {
-			question.checkAnswers(1);
-		}); 
-		$('.btnVal2').bind('click', function() {
-			question.checkAnswers(2);
-		});
-		$('.btnVal3').bind('click', function() {
-			question.checkAnswers(3);
-		});
-
-
-		$('.startGame').bind('click', function() {
-			$('#start').hide();
-			$('.button').css('visibility', 'visible');
-			$(this).css('visibility', 'hidden');
-			question.displayQuestion();
-		});
-
-		$('.resetGame').bind('click', function() {
-			gameReset();
-		});
-
+	//reset all variables and DOMs
 	function gameReset() {
 		questionIndex = 0,
 	    correctAns = 0,
@@ -154,13 +154,12 @@ $(function() {
 	    gameOver = false,
 	    intervalID = null;
 
-		$('#start').show();
-		$('#questionHolder #messages').empty();
+		$('#start').show().fadeIn(2000);
+		$('#question, #answer, #timer').hide();
+		$('#messages').empty();
 		$('.startGame').css('visibility', 'visible');
-		$('.resetGame').css('visibility', 'hidden');
-		
+		$('.resetGame').css('visibility', 'hidden');	
 	}
-
 });
 
 
