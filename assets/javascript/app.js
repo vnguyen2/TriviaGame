@@ -63,7 +63,8 @@ $(function() {
 			if(timeLeft == 0) {
 				timer.timerReset();
 				outOfTime++;
-				$('#messages').html('Too slow. I suppose you can try waiting for me to find you.');
+				$('#messages').html('Too slow. I never miss a beat.');
+				$('#answer, #question').hide();
 				question.nextQuestion();
 			} else {
 				timeLeft--
@@ -115,7 +116,6 @@ $(function() {
 			}
 		},
 	};
-
 	//click action for answer buttons
 	$('.btnVal0').bind('click', function() {
 		question.checkAnswers(0);
@@ -144,6 +144,10 @@ $(function() {
 	$('.resetGame').bind('click', function() {
 		gameReset();
 	});
+
+	//background music
+	$("#theme").prop("volume", 0.3);
+	$("#theme").get(0).play();
 
 	//reset all variables and DOMs
 	function gameReset() {
