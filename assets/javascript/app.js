@@ -83,7 +83,7 @@ $(function() {
 					$('.btnVal' + i).html(q.answers[i]); 
 					console.log(q.answers[i])
 				}
-				timer.startTimer(4);
+				timer.startTimer(15);
 		},
 		//check answers for right or wrong
 		checkAnswers: function(answer) {
