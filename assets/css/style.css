@@ -8,7 +8,7 @@ body {
     color: #000;
 }
 
-h1, h2, #question {
+h1, h2, h6, #question {
 	font-weight: bold;
 }
 
@@ -21,8 +21,11 @@ h1, h2, #question {
 }
 
 #question, #messages {
+	border-radius: 10px;
 	background-color: grey;
+
 	font-size: 18px;
+
 	text-align: center;
 	margin: 15px auto;
 }
@@ -31,4 +34,17 @@ h1, h2, #question {
 	visibility: hidden;
 	width: 45%;
 	margin: 5px auto;
+}
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #b5651d;
+  border-color: #b5651d; 
+}
+
+.resetGame {
+	visibility: hidden;
 }
