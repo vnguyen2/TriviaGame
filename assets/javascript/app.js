@@ -146,8 +146,7 @@ $(function() {
 	});
 
 	//background music
-	$("#theme").prop("volume", 0.3);
-	$("#theme").get(0).play();
+	document.querySelector('#theme').play();
 
 	//reset all variables and DOMs
 	function gameReset() {
